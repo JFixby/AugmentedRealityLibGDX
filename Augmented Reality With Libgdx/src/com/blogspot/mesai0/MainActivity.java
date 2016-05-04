@@ -33,8 +33,8 @@ public class MainActivity extends CameraActivity {
 		// Camera Part
 
 		this.cameraControl = new AndroidDeviceCameraController(this);
-
-		this.view = this.initializeForView(this.renderer = new Renderer(this, this.cameraControl), cfg);
+		this.renderer = new Renderer(this, this.cameraControl);
+		this.view = this.initializeForView(this.renderer, cfg);
 		// keep the original screen size
 		this.origWidth = this.graphics.getWidth();
 		this.origHeight = this.graphics.getHeight();

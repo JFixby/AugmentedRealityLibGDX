@@ -13,21 +13,20 @@
 
 package cameracontrol;
 
-
 public interface DeviceCameraControl {
 
 	// Synchronous interface
-	void prepareCamera();
+	void prepareCamera ();
 
-	void startPreview();
+	void startPreview ();
 
-	void stopPreview();
+	void stopPreview ();
 
-	void startPreviewAsync();
+	void startPreviewAsync ();
 
-	void stopPreviewAsync();
+	void stopPreviewAsync ();
 
-	boolean isReady();
+	boolean isReady ();
 
-	void prepareCameraAsync();
+	void prepareCameraAsync ();
 }

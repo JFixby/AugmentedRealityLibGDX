@@ -1,3 +1,4 @@
+
 package libgdx;
 
 import java.util.concurrent.Semaphore;
@@ -24,13 +25,13 @@ public class Renderer implements ApplicationListener {
 	private InputMultiplexer multiplexer;
 	public Semaphore canRender = new Semaphore(1);
 
-	public Renderer(Context context, DeviceCameraControl cameraControl) {
+	public Renderer (Context context, DeviceCameraControl cameraControl) {
 		this.deviceCameraControl = cameraControl;
 		this.context = context;
 	}
 
 	@Override
-	public void create() {
+	public void create () {
 		Looper.prepare();
 		screen = new Screen(context);
 		screen.init(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -41,7 +42,7 @@ public class Renderer implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {
+	public void render () {
 		if (mode == Mode.normal) {
 			mode = Mode.prepare;
 			if (deviceCameraControl != null) {
@@ -79,29 +80,29 @@ public class Renderer implements ApplicationListener {
 		Gdx.gl10.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl10.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		if (canRender.tryAcquire()) {
-			((LibGDXPerspectiveCamera) screen.getCamera()).render();
+			((LibGDXPerspectiveCamera)screen.getCamera()).render();
 			screen.render();
 			canRender.release();
 		}
 	}
 
 	@Override
-	public void resize(int width, int height) {
+	public void resize (int width, int height) {
 	}
 
 	@Override
-	public void pause() {
+	public void pause () {
 		deviceCameraControl.stopPreviewAsync();
 		mode = Mode.normal;
 	}
 
 	@Override
-	public void resume() {
+	public void resume () {
 
 	}
 
 	@Override
-	public void dispose() {
+	public void dispose () {
 		if (multiplexer != null) {
 			multiplexer.clear();
 			multiplexer = null;

@@ -1,3 +1,4 @@
+
 package combinedview;
 
 import android.graphics.PixelFormat;
@@ -16,64 +17,64 @@ public class CameraActivity extends AndroidApplication {
 	protected FrameLayout main;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate (Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
 	}
 
-	public void addView(View view, int index) {
+	public void addView (View view, int index) {
 		main.addView(view, index);
 	}
 
-	public void addView(View view) {
+	public void addView (View view) {
 		main.addView(view);
 	}
 
-	public Handler getMainHandler() {
+	public Handler getMainHandler () {
 		return this.handler;
 	}
 
-	public void post(Runnable r) {
+	public void post (Runnable r) {
 		handler.post(r);
 	}
 
-	public void setFixedSize(int width, int height) {
+	public void setFixedSize (int width, int height) {
 		if (graphics.getView() instanceof SurfaceView) {
-			SurfaceView glView = (SurfaceView) graphics.getView();
+			SurfaceView glView = (SurfaceView)graphics.getView();
 			glView.getHolder().setFormat(PixelFormat.RGBA_8888);
 			glView.getHolder().setFixedSize(width, height);
 		}
 	}
 
-	public void restoreFixedSize() {
+	public void restoreFixedSize () {
 		if (graphics.getView() instanceof SurfaceView) {
-			SurfaceView glView = (SurfaceView) graphics.getView();
+			SurfaceView glView = (SurfaceView)graphics.getView();
 			glView.getHolder().setFormat(PixelFormat.RGBA_8888);
 			glView.getHolder().setFixedSize(origWidth, origHeight);
 		}
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy () {
 		super.onDestroy();
 
 	}
 
 	@Override
-	protected void onPause() {
+	protected void onPause () {
 		super.onPause();
 
 	}
 
 	@Override
-	protected void onResume() {
+	protected void onResume () {
 		super.onResume();
 
 	}
 
 	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
+	public boolean dispatchKeyEvent (KeyEvent event) {
 		boolean result;
 		switch (event.getKeyCode()) {
 		case KeyEvent.KEYCODE_VOLUME_UP:

@@ -1,17 +1,18 @@
+
 package util;
 
 public class LowPassFilter {
 
 	float[] output;
 
-	public LowPassFilter() {
+	public LowPassFilter () {
 
 	}
 
 	// LowPass Filter
-	public  float[] lowPass(float[] input, float alpha) {
-		if (output == null){
-			output= input;
+	public float[] lowPass (float[] input, float alpha) {
+		if (output == null) {
+			output = input;
 			return output;
 		}
 

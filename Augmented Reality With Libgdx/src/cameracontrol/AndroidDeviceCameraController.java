@@ -1,3 +1,4 @@
+
 package cameracontrol;
 
 import java.util.List;
@@ -9,19 +10,18 @@ import android.view.ViewParent;
 
 import combinedview.CameraActivity;
 
-public class AndroidDeviceCameraController implements DeviceCameraControl,
-		Camera.PictureCallback, Camera.AutoFocusCallback {
+public class AndroidDeviceCameraController implements DeviceCameraControl, Camera.PictureCallback, Camera.AutoFocusCallback {
 
-//	private static final int ONE_SECOND_IN_MILI = 1000;
+// private static final int ONE_SECOND_IN_MILI = 1000;
 	private final CameraActivity activity;
 	private CameraSurface cameraSurface;
 
-	public AndroidDeviceCameraController(CameraActivity activity) {
+	public AndroidDeviceCameraController (CameraActivity activity) {
 		this.activity = activity;
 	}
 
 	@Override
-	public synchronized void prepareCamera() {
+	public synchronized void prepareCamera () {
 		Display display = activity.getWindowManager().getDefaultDisplay();
 		activity.setFixedSize(display.getWidth(), display.getHeight());
 
@@ -34,7 +34,7 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public synchronized void startPreview() {
+	public synchronized void startPreview () {
 		// ...and start previewing. From now on, the camera keeps pushing
 		// preview
 		// images to the surface.
@@ -44,14 +44,14 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public synchronized void stopPreview() {
+	public synchronized void stopPreview () {
 		// stop previewing.
 		if (cameraSurface != null) {
 			ViewParent parentView = cameraSurface.getParent();
 			if (parentView instanceof ViewGroup) {
-				ViewGroup viewGroup = (ViewGroup) parentView;
+				ViewGroup viewGroup = (ViewGroup)parentView;
 				viewGroup.removeView(cameraSurface);
-				
+
 			}
 			if (cameraSurface.getCamera() != null) {
 				cameraSurface.getCamera().stopPreview();
@@ -61,7 +61,7 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 		activity.restoreFixedSize();
 	}
 
-	public void setCameraParametersForPicture(Camera camera) {
+	public void setCameraParametersForPicture (Camera camera) {
 		// Before we take the picture - we make sure all camera parameters are
 		// as we like them
 		// Use max resolution and auto focus
@@ -81,7 +81,7 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public synchronized void onAutoFocus(boolean success, Camera camera) {
+	public synchronized void onAutoFocus (boolean success, Camera camera) {
 		// Focus process finished, we now have focus (or not)
 		if (success) {
 			if (camera != null) {
@@ -93,9 +93,9 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public void prepareCameraAsync() {
+	public void prepareCameraAsync () {
 		Runnable r = new Runnable() {
-			public void run() {
+			public void run () {
 				prepareCamera();
 			}
 		};
@@ -103,9 +103,9 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public synchronized void startPreviewAsync() {
+	public synchronized void startPreviewAsync () {
 		Runnable r = new Runnable() {
-			public void run() {
+			public void run () {
 				startPreview();
 			}
 		};
@@ -113,9 +113,9 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public synchronized void stopPreviewAsync() {
+	public synchronized void stopPreviewAsync () {
 		Runnable r = new Runnable() {
-			public void run() {
+			public void run () {
 				stopPreview();
 			}
 		};
@@ -123,7 +123,7 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public boolean isReady() {
+	public boolean isReady () {
 		if (cameraSurface != null && cameraSurface.getCamera() != null) {
 			return true;
 		}
@@ -131,8 +131,7 @@ public class AndroidDeviceCameraController implements DeviceCameraControl,
 	}
 
 	@Override
-	public void onPictureTaken(byte[] data, Camera camera) {
-		
-		
+	public void onPictureTaken (byte[] data, Camera camera) {
+
 	}
 }

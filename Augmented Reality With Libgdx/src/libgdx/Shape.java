@@ -1,11 +1,12 @@
+
 package libgdx;
 
 import util.LowPassFilter;
 import android.content.Context;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
-public abstract class Shape {
 
+public abstract class Shape {
 
 	protected float x;
 	protected float y;
@@ -56,18 +57,18 @@ public abstract class Shape {
 	protected Context context;
 
 	protected float showRadius;
-	
+
 	protected boolean instantiance;
 
-	public void dispose(){
+	public void dispose () {
 		modelView = null;
 		accModelView = null;
 		filter = null;
 	}
 
-	public abstract void render();
+	public abstract void render ();
 
-	public void setTranslationMatrix(float x, float y, float z) {
+	public void setTranslationMatrix (float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -76,52 +77,45 @@ public abstract class Shape {
 		this.virZ = z;
 	}
 
-	public void setTranslationMatrixInstantiance(float x, float y, float z) {
+	public void setTranslationMatrixInstantiance (float x, float y, float z) {
 		this.virX = x;
 		this.virY = y;
 		this.virZ = z;
 		instantiance = true;
 	}
 
-
-	public void setRotationMatrix(float angle, float x, float y, float z) {
+	public void setRotationMatrix (float angle, float x, float y, float z) {
 		this.angle = angle;
 		this.xAxis = x;
 		this.yAxis = y;
 		this.zAxis = z;
 	}
 
-	public void setScalingMatrix(float x, float y, float z) {
+	public void setScalingMatrix (float x, float y, float z) {
 		this.scaleX = x;
 		this.scaleY = y;
 		this.scaleZ = z;
 	}
 
-	public Shape(Context context) {
+	public Shape (Context context) {
 		this.context = context;
 	}
 
-	
-
-	public void setOnclickListener(OnShapeClickListener l) {
+	public void setOnclickListener (OnShapeClickListener l) {
 		listener = l;
 	}
 
-	public void setDrawIndex(int i) {
+	public void setDrawIndex (int i) {
 		drawIndex = i;
 
 	}
 
-	public boolean changeDepth(float before, float after) {
+	public boolean changeDepth (float before, float after) {
 		if (this.islocked) {
 			if (after - before < oldDistanceDelta) {
-				if (Math.abs(after - before - oldDistanceDelta) > 2)
-					if (radius + 0.2 < this.parent.getCamera().far)
-						radius += 0.2;
+				if (Math.abs(after - before - oldDistanceDelta) > 2) if (radius + 0.2 < this.parent.getCamera().far) radius += 0.2;
 			} else {
-				if (Math.abs(after - before - oldDistanceDelta) > 2)
-					if (radius - 0.2 > 0)
-						radius -= 0.2;
+				if (Math.abs(after - before - oldDistanceDelta) > 2) if (radius - 0.2 > 0) radius -= 0.2;
 			}
 			oldDistanceDelta = after - before;
 			return true;
@@ -129,70 +123,67 @@ public abstract class Shape {
 		return false;
 	}
 
-	public void setLock(boolean lock) {
+	public void setLock (boolean lock) {
 		this.islocked = lock;
 	}
 
-	public boolean isLock() {
+	public boolean isLock () {
 		return islocked;
 	}
 
-	public void setParent(Screen parent) {
+	public void setParent (Screen parent) {
 		this.parent = parent;
 	}
 
-	public void setIndex(int i) {
+	public void setIndex (int i) {
 		index = i;
 
 	}
 
-	public boolean isVisible() {
+	public boolean isVisible () {
 		return isvisible;
 	}
 
-	public void setVisibility(boolean visible) {
+	public void setVisibility (boolean visible) {
 		this.isvisible = visible;
 	}
 
-	public double[] getPosition() {
-		return new double[] { x, y, z };
+	public double[] getPosition () {
+		return new double[] {x, y, z};
 	}
 
-	public float[] getPositionf() { // ENU
-		return new float[] { x, y, z };
+	public float[] getPositionf () { // ENU
+		return new float[] {x, y, z};
 	}
 
-	public float[] getShowPositionf() {// Animation
-		return new float[] { showX, showY, showZ };
+	public float[] getShowPositionf () {// Animation
+		return new float[] {showX, showY, showZ};
 	}
 
-	public float[] getPositionForIntersectionf() {// ENU Translated To be Used
-		return new float[] { virX, virY, virZ };
+	public float[] getPositionForIntersectionf () {// ENU Translated To be Used
+		return new float[] {virX, virY, virZ};
 	}
 
-	public float getRadius() {
+	public float getRadius () {
 		return radius;
 	}
 
-	public float getShowRadius() {
+	public float getShowRadius () {
 		return showRadius;
 	}
 
-	public float[] getAccModelView() {
+	public float[] getAccModelView () {
 		// TODO Auto-generated method stub
 		return accModelView;
 	}
 
-	public int getDrawIndex() {
+	public int getDrawIndex () {
 		return drawIndex;
 	}
 
-	public void render(com.badlogic.gdx.graphics.Camera camera) {
+	public void render (com.badlogic.gdx.graphics.Camera camera) {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-
 
 }

@@ -1,3 +1,4 @@
+
 package libgdx;
 
 import java.util.concurrent.Semaphore;
@@ -19,9 +20,9 @@ public class LibGDXCameraOrientation {
 	private float matrix[] = new float[16];
 	private BufferAlgo1 accelBufferAlgo;
 	private BufferAlgo1 magnetBufferAlgo;
-	private float[] lookAt = { 0, 0, -100, 1 };
-	private float[] up = { 0, 1, 0, 1 };
-	private float[] position = { 0, 0, 0 };
+	private float[] lookAt = {0, 0, -100, 1};
+	private float[] up = {0, 1, 0, 1};
+	private float[] position = {0, 0, 0};
 	private float far;
 	private Sensor sensorOrien;
 	private boolean stable;
@@ -36,23 +37,23 @@ public class LibGDXCameraOrientation {
 	private Semaphore clear = new Semaphore(1);
 	private boolean quit;
 
-	public LibGDXCameraOrientation(float far, boolean isMarker) {
+	public LibGDXCameraOrientation (float far, boolean isMarker) {
 		accelBufferAlgo = new BufferAlgo1(0.1f, 0.2f);
 		magnetBufferAlgo = new BufferAlgo1(0.1f, 0.2f);
 		this.far = far;
 	}
 
-	public float[] getOldOrientation() {
+	public float[] getOldOrientation () {
 		return rotation;
 	}
 
-	public void start(Context context) {
+	public void start (Context context) {
 		listener = new SensorEventListener() {
 
-			public void onAccuracyChanged(Sensor arg0, int arg1) {
+			public void onAccuracyChanged (Sensor arg0, int arg1) {
 			}
 
-			public void onSensorChanged(SensorEvent evt) {
+			public void onSensorChanged (SensorEvent evt) {
 
 				if (clear.tryAcquire()) {
 					if (!quit) {
@@ -63,30 +64,23 @@ public class LibGDXCameraOrientation {
 							orientation = lowPass(evt.values, orientation, 0.1f);
 						} else if (type == Sensor.TYPE_ACCELEROMETER) {
 
-							acceleration = lowPass(evt.values, acceleration,
-									0.05f);
+							acceleration = lowPass(evt.values, acceleration, 0.05f);
 						}
 						if (oldAcceleration != null || oldOrientation != null) {
-							accelBufferAlgo.execute(oldAcceleration,
-									acceleration);
-							magnetBufferAlgo.execute(oldOrientation,
-									orientation);
+							accelBufferAlgo.execute(oldAcceleration, acceleration);
+							magnetBufferAlgo.execute(oldOrientation, orientation);
 						} else {
 							oldAcceleration = acceleration;
 							oldOrientation = orientation;
 						}
 
-						if ((type == Sensor.TYPE_MAGNETIC_FIELD)
-								|| (type == Sensor.TYPE_ACCELEROMETER)) {
+						if ((type == Sensor.TYPE_MAGNETIC_FIELD) || (type == Sensor.TYPE_ACCELEROMETER)) {
 							newMat = new float[16];
-							SensorManager.getRotationMatrix(newMat, null,
-									oldAcceleration, oldOrientation);
-							SensorManager.remapCoordinateSystem(newMat,
-									SensorManager.AXIS_Y,
-									SensorManager.AXIS_MINUS_X, newMat);
+							SensorManager.getRotationMatrix(newMat, null, oldAcceleration, oldOrientation);
+							SensorManager.remapCoordinateSystem(newMat, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, newMat);
 							matT = new Matrix4(newMat).tra();
-							float[] newLookAt = { 0, 0, -far, 1 };
-							float[] newUp = { 0, 1, 0, 1 };
+							float[] newLookAt = {0, 0, -far, 1};
+							float[] newUp = {0, 1, 0, 1};
 							Matrix4.mulVec(matT.val, newLookAt);
 							Matrix4.mulVec(matT.val, newUp);
 							matrix = matT.val;
@@ -115,30 +109,25 @@ public class LibGDXCameraOrientation {
 				}
 			}
 		};
-		sensorMan = (SensorManager) context
-				.getSystemService(Context.SENSOR_SERVICE);
+		sensorMan = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		sensorAcce = sensorMan.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 		sensorMagn = sensorMan.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).get(0);
-		sensorMan.registerListener(listener, sensorAcce,
-				SensorManager.SENSOR_DELAY_FASTEST);
-		sensorMan.registerListener(listener, sensorMagn,
-				SensorManager.SENSOR_DELAY_FASTEST);
-		sensorMan.registerListener(listener, sensorOrien,
-				SensorManager.SENSOR_DELAY_FASTEST);
-		sensorMan.registerListener(listener, sensorLinAcce,
-				SensorManager.SENSOR_DELAY_FASTEST);
+		sensorMan.registerListener(listener, sensorAcce, SensorManager.SENSOR_DELAY_FASTEST);
+		sensorMan.registerListener(listener, sensorMagn, SensorManager.SENSOR_DELAY_FASTEST);
+		sensorMan.registerListener(listener, sensorOrien, SensorManager.SENSOR_DELAY_FASTEST);
+		sensorMan.registerListener(listener, sensorLinAcce, SensorManager.SENSOR_DELAY_FASTEST);
 
 	}
 
-	public boolean getStable() {
+	public boolean getStable () {
 		return stable;
 	}
 
-	public float[] getMatrix() {
+	public float[] getMatrix () {
 		return matrix;
 	}
 
-	public float[] getLookAt() {
+	public float[] getLookAt () {
 		float[] out = new float[3];
 		out[0] = lookAt[0];
 		out[1] = lookAt[1];
@@ -146,7 +135,7 @@ public class LibGDXCameraOrientation {
 		return out;
 	}
 
-	public float[] getUp() {
+	public float[] getUp () {
 		float[] out = new float[3];
 		out[0] = up[0];
 		out[1] = up[1];
@@ -154,17 +143,17 @@ public class LibGDXCameraOrientation {
 		return out;
 	}
 
-	public void setLookAtOffset(float x, float y, float z) {
+	public void setLookAtOffset (float x, float y, float z) {
 		position[0] = x;
 		position[1] = y;
 		position[2] = z;
 	}
 
-	public void setUp() {
+	public void setUp () {
 
 	}
 
-	public void finish() {
+	public void finish () {
 		sensorMan.unregisterListener(listener);
 		sensorMan = null;
 
@@ -204,38 +193,32 @@ public class LibGDXCameraOrientation {
 		private final float m;
 		private final float n;
 
-		public BufferAlgo1(float a, float b) {
+		public BufferAlgo1 (float a, float b) {
 			this.a = a;
 			this.b = b;
 			m = 1f / (b - a);
 			n = a / (a - b);
 		}
 
-		public boolean execute(float[] target, float[] values) {
+		public boolean execute (float[] target, float[] values) {
 			target[0] = morph(target[0], values[0]);
 			target[1] = morph(target[1], values[1]);
 			target[2] = morph(target[2], values[2]);
 			return true;
 		}
 
-		/**
-		 * @param v
+		/** @param v
 		 * @param newV
-		 * @return newT=t+f(|v-t|)
-		 */
-		private float morph(float v, float newV) {
+		 * @return newT=t+f(|v-t|) */
+		private float morph (float v, float newV) {
 			float x = newV - v;
 			if (x >= 0) {
-				if (x < a)
-					return v; // v+0*x
-				if (b <= x)
-					return newV; // v+1*x
+				if (x < a) return v; // v+0*x
+				if (b <= x) return newV; // v+1*x
 				return v + x * m + n;
 			} else {
-				if (-x < a)
-					return v;
-				if (b <= -x)
-					return newV;
+				if (-x < a) return v;
+				if (b <= -x) return newV;
 				return v + x * m + n;
 			}
 		}
@@ -243,9 +226,8 @@ public class LibGDXCameraOrientation {
 	}
 
 	// LowPass Filter
-	protected float[] lowPass(float[] input, float[] output, float alpha) {
-		if (output == null)
-			return input;
+	protected float[] lowPass (float[] input, float[] output, float alpha) {
+		if (output == null) return input;
 
 		for (int i = 0; i < input.length; i++) {
 			output[i] = output[i] + alpha * (input[i] - output[i]);

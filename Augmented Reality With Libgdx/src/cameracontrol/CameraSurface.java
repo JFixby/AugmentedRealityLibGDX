@@ -19,15 +19,13 @@ import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class CameraSurface extends SurfaceView implements
-		SurfaceHolder.Callback {
+public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback {
 	private Camera camera;
 	int width;
 	int height;
 	int angle;
 
-
-	public CameraSurface(Context context) {
+	public CameraSurface (Context context) {
 		super(context);
 		// We're implementing the Callback interface and want to get notified
 		// about certain surface events.
@@ -39,14 +37,13 @@ public class CameraSurface extends SurfaceView implements
 
 	}
 
-	public void surfaceCreated(SurfaceHolder holder) {
+	public void surfaceCreated (SurfaceHolder holder) {
 		// Once the surface is created, simply open a handle to the camera
 		// hardware.
 		camera = Camera.open();
 	}
 
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged (SurfaceHolder holder, int format, int width, int height) {
 		// This method is called when the surface changes, e.g. when it's size
 		// is set.
 		// We use the opportunity to initialize the camera preview display
@@ -75,7 +72,7 @@ public class CameraSurface extends SurfaceView implements
 		this.width = width;
 	}
 
-	public void surfaceDestroyed(SurfaceHolder holder) {
+	public void surfaceDestroyed (SurfaceHolder holder) {
 		// Once the surface gets destroyed, we stop the preview mode and release
 		// the whole camera since we no longer need it.
 		camera.stopPreview();
@@ -83,7 +80,7 @@ public class CameraSurface extends SurfaceView implements
 		camera = null;
 	}
 
-	public Camera getCamera() {
+	public Camera getCamera () {
 		return camera;
 	}
 
